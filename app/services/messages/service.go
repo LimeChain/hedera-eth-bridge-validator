@@ -91,7 +91,7 @@ func (ss *Service) SanityCheckSignature(tm encoding.TopicMessage) (bool, error) 
 		return false, err
 	}
 
-	valid, erc20address := ss.contractsService.IsValidBridgeAsset(t.Asset)
+	valid, _ := ss.contractsService.IsValidBridgeAsset(t.Asset)
 	if !valid {
 		ss.logger.Errorf("Provided Asset is not supported - [%s]", t.Asset)
 		return false, err
@@ -99,9 +99,9 @@ func (ss *Service) SanityCheckSignature(tm encoding.TopicMessage) (bool, error) 
 
 	match := t.EthAddress == topicMessage.EthAddress &&
 		t.Amount == topicMessage.Amount &&
-		t.Fee == topicMessage.Fee &&
-		t.GasPriceWei == topicMessage.GasPriceWei &&
-		topicMessage.Erc20Address == erc20address
+		t.Fee == topicMessage.Fee
+		//t.GasPriceWei == topicMessage.GasPriceWei &&
+		//topicMessage.Erc20Address == erc20address
 	return match, nil
 }
 
